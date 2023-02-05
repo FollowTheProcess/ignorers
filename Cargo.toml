@@ -11,4 +11,9 @@ readme = "README.md"
 keywords = [ "keywords", "here" ]
 categories = [ "command-line-utilities" ]
 
+[[bin]]
+name = "ig"
+path = "src/main.rs"
+
 [dependencies]
+clap = { version = "4.1.4", features = [ "derive" ] }
