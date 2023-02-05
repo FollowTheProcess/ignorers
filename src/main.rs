@@ -2,6 +2,8 @@
 #![forbid(unsafe_code)]
 #![doc = include_str!("../README.md")]
 
+mod cli;
+
 fn main() {
-    println!("Hello, world!");
+    cli::run();
 }
