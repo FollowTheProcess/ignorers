@@ -1,0 +1,14 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v0.4.0
+_src_path: gh:FollowTheProcess/rust_copier
+author_email: tomfleet2018@gmail.com
+author_name: Tom Fleet
+create_github_repo: true
+description: Generate gitignores from the command line
+github_url: https://github.com/FollowTheProcess/ignorers
+github_username: FollowTheProcess
+initialise_git_repo: true
+license: Apache Software License 2.0
+project_name: ignorers
+project_slug: ignorers
+project_type: binary
