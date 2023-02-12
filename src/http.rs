@@ -1,16 +1,16 @@
 //! The http module is responsible for `ig`'s calls to the gitignore.io API.
 
 /// Client for the gitignore.io API
-pub struct Client {
-    base_url: String,
+pub struct Client<'a> {
+    base_url: &'a str,
     client: reqwest::blocking::Client,
 }
 
-impl Client {
+impl<'a> Client<'a> {
     /// Create a new client for the gitignore.io API
-    pub fn new(base_url: &str) -> Self {
+    pub fn new(base_url: &'a str) -> Self {
         Self {
-            base_url: base_url.to_string(),
+            base_url,
             client: reqwest::blocking::Client::new(),
         }
     }
@@ -20,6 +20,18 @@ impl Client {
         let response = self
             .client
             .get(format!("{}/list?format=lines", self.base_url))
+            .send()?
+            .error_for_status()?;
+
+        let contents = response.text()?;
+        Ok(contents)
+    }
+
+    /// Get the gitignore for the given targets from the gitignore.io API
+    pub fn fetch_gitignore(&self, targets: &[&str]) -> Result<String, reqwest::Error> {
+        let response = self
+            .client
+            .get(format!("{}/{}", self.base_url, targets.join(",")))
             .send()?
             .error_for_status()?;
 
@@ -74,6 +86,49 @@ mod test {
             .create();
 
         let response = client.fetch_available_targets();
+        assert!(response.is_err());
+    }
+
+    #[test]
+    fn test_fetch_gitignore_ok() -> TestResult {
+        let url = &mockito::server_url();
+        let client = Client::new(url);
+        let body = "target1\ntarget2\ntarget3\n";
+
+        let _mock = mockito::mock("GET", "/target1,target2,target3")
+            .with_status(200)
+            .with_header("content-type", "text/plain")
+            .with_body(body)
+            .create();
+
+        let response = client.fetch_gitignore(&["target1", "target2", "target3"])?;
+        assert_eq!(response, body);
+        Ok(())
+    }
+
+    #[test]
+    fn test_fetch_gitignore_bad_request() {
+        let url = &mockito::server_url();
+        let client = Client::new(url);
+
+        let _mock = mockito::mock("GET", "/target1,target2,target3")
+            .with_status(400)
+            .create();
+
+        let response = client.fetch_gitignore(&["target1", "target2", "target3"]);
+        assert!(response.is_err());
+    }
+
+    #[test]
+    fn test_fetch_gitignore_server_error() {
+        let url = &mockito::server_url();
+        let client = Client::new(url);
+
+        let _mock = mockito::mock("GET", "/target1,target2,target3")
+            .with_status(500)
+            .create();
+
+        let response = client.fetch_gitignore(&["target1", "target2", "target3"]);
         assert!(response.is_err());
     }
 }

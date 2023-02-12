@@ -30,23 +30,34 @@ struct Cli {
 /// Parse the CLI arguments and run the program
 pub fn run() -> Result<(), Box<dyn Error>> {
     let cli = Cli::parse();
-    dbg!(&cli);
 
     let client = http::Client::new(BASE_URL);
 
     if cli.list {
-        println!("Listing available targets...");
         let targets = client.fetch_available_targets()?;
         println!("{targets}");
         return Ok(());
     }
 
-    println!("Generating gitignore for {:?}", cli.targets);
+    let targets: Vec<&str> = cli
+        .targets
+        .iter()
+        .map(std::string::String::as_str)
+        .collect();
+    let gitignore = client.fetch_gitignore(&targets)?;
 
     if cli.stdout {
-        println!("Printing to stdout...");
+        println!("{gitignore}");
     } else {
-        println!("Writing to file...");
+        let ignore_file = std::env::current_dir()?.join(".gitignore");
+        if ignore_file.exists() {
+            return Err(format!(
+                "A .gitignore file already exists at {}",
+                ignore_file.display()
+            )
+            .into());
+        }
+        std::fs::write(ignore_file, gitignore)?;
     }
 
     Ok(())
