@@ -48,11 +48,13 @@ mod test {
 
     #[test]
     fn test_fetch_available_targets_ok() -> TestResult {
-        let url = &mockito::server_url();
+        let mut server = mockito::Server::new();
+        let url = &server.url();
         let client = Client::new(url);
         let body = "target1\ntarget2\ntarget3\n";
 
-        let _mock = mockito::mock("GET", "/list?format=lines")
+        let _mock = server
+            .mock("GET", "/list?format=lines")
             .with_status(200)
             .with_header("content-type", "text/plain")
             .with_body(body)
@@ -65,10 +67,12 @@ mod test {
 
     #[test]
     fn test_fetch_available_targets_bad_request() {
-        let url = &mockito::server_url();
+        let mut server = mockito::Server::new();
+        let url = &server.url();
         let client = Client::new(url);
 
-        let _mock = mockito::mock("GET", "/list?format=lines")
+        let _mock = server
+            .mock("GET", "/list?format=lines")
             .with_status(400)
             .create();
 
@@ -78,10 +82,12 @@ mod test {
 
     #[test]
     fn test_fetch_available_targets_server_error() {
-        let url = &mockito::server_url();
+        let mut server = mockito::Server::new();
+        let url = &server.url();
         let client = Client::new(url);
 
-        let _mock = mockito::mock("GET", "/list?format=lines")
+        let _mock = server
+            .mock("GET", "/list?format=lines")
             .with_status(500)
             .create();
 
@@ -91,11 +97,13 @@ mod test {
 
     #[test]
     fn test_fetch_gitignore_ok() -> TestResult {
-        let url = &mockito::server_url();
+        let mut server = mockito::Server::new();
+        let url = &server.url();
         let client = Client::new(url);
         let body = "target1\ntarget2\ntarget3\n";
 
-        let _mock = mockito::mock("GET", "/target1,target2,target3")
+        let _mock = server
+            .mock("GET", "/target1,target2,target3")
             .with_status(200)
             .with_header("content-type", "text/plain")
             .with_body(body)
@@ -108,10 +116,12 @@ mod test {
 
     #[test]
     fn test_fetch_gitignore_bad_request() {
-        let url = &mockito::server_url();
+        let mut server = mockito::Server::new();
+        let url = &server.url();
         let client = Client::new(url);
 
-        let _mock = mockito::mock("GET", "/target1,target2,target3")
+        let _mock = server
+            .mock("GET", "/target1,target2,target3")
             .with_status(400)
             .create();
 
@@ -121,10 +131,12 @@ mod test {
 
     #[test]
     fn test_fetch_gitignore_server_error() {
-        let url = &mockito::server_url();
+        let mut server = mockito::Server::new();
+        let url = &server.url();
         let client = Client::new(url);
 
-        let _mock = mockito::mock("GET", "/target1,target2,target3")
+        let _mock = server
+            .mock("GET", "/target1,target2,target3")
             .with_status(500)
             .create();
 
