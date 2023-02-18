@@ -3,6 +3,7 @@
 #![doc = include_str!("../README.md")]
 
 mod cli;
+mod error;
 mod http;
 
 fn main() {
