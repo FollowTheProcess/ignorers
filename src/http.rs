@@ -1,5 +1,7 @@
 //! The http module is responsible for `ig`'s calls to the gitignore.io API.
 
+use crate::error::{Error, Result};
+
 /// Client for the gitignore.io API
 pub struct Client<'a> {
     base_url: &'a str,
@@ -16,7 +18,7 @@ impl<'a> Client<'a> {
     }
 
     /// Get the list of available targets from the gitignore.io API
-    pub fn fetch_available_targets(&self) -> Result<String, reqwest::Error> {
+    pub fn fetch_available_targets(&self) -> Result<String> {
         let response = self
             .client
             .get(format!("{}/list?format=lines", self.base_url))
@@ -28,12 +30,22 @@ impl<'a> Client<'a> {
     }
 
     /// Get the gitignore for the given targets from the gitignore.io API
-    pub fn fetch_gitignore(&self, targets: &[&str]) -> Result<String, reqwest::Error> {
+    pub fn fetch_gitignore(&self, targets: &[&str]) -> Result<String> {
         let response = self
             .client
             .get(format!("{}/{}", self.base_url, targets.join(",")))
             .send()?
-            .error_for_status()?;
+            .error_for_status();
+
+        let response = match response {
+            Ok(response) => response,
+            Err(e) => {
+                if e.status() == Some(reqwest::StatusCode::NOT_FOUND) {
+                    return Err(Error::InvalidTarget(targets.join(",")));
+                }
+                return Err(Error::Http(e));
+            }
+        };
 
         let contents = response.text()?;
         Ok(contents)
@@ -44,7 +56,7 @@ impl<'a> Client<'a> {
 mod test {
     use super::*;
 
-    type TestResult = Result<(), Box<dyn std::error::Error>>;
+    type TestResult = std::result::Result<(), Box<dyn std::error::Error>>;
 
     #[test]
     fn test_fetch_available_targets_ok() -> TestResult {

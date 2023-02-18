@@ -1,10 +1,8 @@
 //! The cli module defines the CLI argument parsing for the `ig` binary
 
-use std::error::Error;
-
 use clap::Parser;
 
-use crate::http;
+use crate::{error::Error, error::Result, http};
 
 const LONG_ABOUT: &str = "
 Generate great gitignore files, straight from the command line! 🛠️
@@ -23,12 +21,16 @@ struct Cli {
     list: bool,
 
     /// Print the gitignore to stdout instead of writing to a file
-    #[arg(short, long)]
+    #[arg(short, long, conflicts_with = "force")]
     stdout: bool,
+
+    /// Force overwrite of an existing .gitignore file
+    #[arg(short, long)]
+    force: bool,
 }
 
 /// Parse the CLI arguments and run the program
-pub fn run() -> Result<(), Box<dyn Error>> {
+pub fn run() -> Result<()> {
     let cli = Cli::parse();
 
     let client = http::Client::new(BASE_URL);
@@ -50,12 +52,8 @@ pub fn run() -> Result<(), Box<dyn Error>> {
         println!("{gitignore}");
     } else {
         let ignore_file = std::env::current_dir()?.join(".gitignore");
-        if ignore_file.exists() {
-            return Err(format!(
-                "A .gitignore file already exists at {}",
-                ignore_file.display()
-            )
-            .into());
+        if ignore_file.exists() && !cli.force {
+            return Err(Error::FileAlreadyExists { cwd: ignore_file });
         }
         std::fs::write(ignore_file, gitignore)?;
     }
