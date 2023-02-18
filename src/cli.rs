@@ -23,8 +23,12 @@ struct Cli {
     list: bool,
 
     /// Print the gitignore to stdout instead of writing to a file
-    #[arg(short, long)]
+    #[arg(short, long, conflicts_with = "force")]
     stdout: bool,
+
+    /// Force overwrite of an existing .gitignore file
+    #[arg(short, long)]
+    force: bool,
 }
 
 /// Parse the CLI arguments and run the program

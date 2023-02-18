@@ -2,12 +2,12 @@
 #![forbid(unsafe_code)]
 #![doc = include_str!("../README.md")]
 
-use std::error::Error;
-
 mod cli;
 mod http;
 
-fn main() -> Result<(), Box<dyn Error>> {
-    cli::run()?;
-    Ok(())
+fn main() {
+    if let Err(e) = cli::run() {
+        eprintln!("Error: {e}");
+        std::process::exit(1);
+    }
 }
