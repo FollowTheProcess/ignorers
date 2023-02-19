@@ -1,8 +1,8 @@
 //! The cli module defines the CLI argument parsing for the `ig` binary
 
-use clap::Parser;
-
 use crate::{error::Error, error::Result, http};
+use clap::Parser;
+use colored::Colorize;
 
 const LONG_ABOUT: &str = "
 Generate great gitignore files, straight from the command line! 🛠️
@@ -57,6 +57,12 @@ pub fn run() -> Result<()> {
         }
         std::fs::write(ignore_file, gitignore)?;
     }
+
+    println!(
+        "{}: {}",
+        "Success".green().bold(),
+        "gitignore written!".bold().white(),
+    );
 
     Ok(())
 }

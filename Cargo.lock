@@ -478,6 +478,7 @@ name = "ignorers"
 version = "0.1.0"
 dependencies = [
  "clap",
+ "colored",
  "mockito",
  "reqwest",
  "thiserror",
