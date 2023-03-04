@@ -146,7 +146,7 @@ jobs:
           VERSION: ${{ needs.version.outputs.version }}
         run: |
           cd target/${{ matrix.target }}/release
-          tar czvf ../../../brewtest-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz ${{ matrix.name }}
+          tar czvf ../../../ignorers-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz ${{ matrix.name }}
           cd -
 
       - name: Upload Built Binaries
@@ -154,8 +154,8 @@ jobs:
         env:
           VERSION: ${{ needs.version.outputs.version }}
         with:
-          name: brewtest-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
-          path: brewtest-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
+          name: ignorers-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
+          path: ignorers-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
 
   release:
     name: GitHub Release
