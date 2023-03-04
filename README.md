@@ -21,7 +21,11 @@ rust 🦀.
 
 ## Installation
 
-TBC
+There are pre-compiled binaries available in the GitHub releases, or there is a homebrew tap available:
+
+```shell
+brew install FollowTheProcess/homebrew-tap/ignorers
+```
 
 ## Quickstart
 
