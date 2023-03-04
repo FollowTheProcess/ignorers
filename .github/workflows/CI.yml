@@ -162,6 +162,19 @@ jobs:
         with:
           release_id: ${{ steps.create_release.outputs.id }}
 
+      - name: Publish Homebrew Release
+        uses: Justintime50/homebrew-releaser@v1
+        with:
+          homebrew_owner: FollowTheProcess
+          homebrew_tap: homebrew-tap
+          formula_folder: Formula
+          github_token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          install: bin.install "ignorers"
+          target_darwin_amd64: true
+          target_darwin_arm64: true
+          target_linux_amd64: true
+          target_linux_arm64: false
+
   cargo_publish:
     name: Publish Package
     runs-on: ubuntu-latest
