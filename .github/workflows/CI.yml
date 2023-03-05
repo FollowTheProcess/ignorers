@@ -102,31 +102,31 @@ jobs:
             os: ubuntu-latest
             platform: linux
             arch: amd64
-            name: ignorers
+            name: ig
 
           - target: x86_64-apple-darwin
             os: macos-latest
             platform: darwin
             arch: amd64
-            name: ignorers
+            name: ig
 
           - target: aarch64-apple-darwin
             os: macos-latest
             platform: darwin
             arch: arm64
-            name: ignorers
+            name: ig
 
           - target: x86_64-pc-windows-msvc
             os: windows-latest
             platform: windows
             arch: amd64
-            name: ignorers.exe
+            name: ig.exe
 
           - target: aarch64-pc-windows-msvc
             os: windows-latest
             platform: windows
             arch: arm64
-            name: ignorers.exe
+            name: ig.exe
 
     steps:
       - name: Set up Rust
@@ -146,7 +146,7 @@ jobs:
           VERSION: ${{ needs.version.outputs.version }}
         run: |
           cd target/${{ matrix.target }}/release
-          tar czvf ../../../ignorers-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz ${{ matrix.name }}
+          tar czvf ../../../ig-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz ${{ matrix.name }}
           cd -
 
       - name: Upload Built Binaries
@@ -154,8 +154,8 @@ jobs:
         env:
           VERSION: ${{ needs.version.outputs.version }}
         with:
-          name: ignorers-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
-          path: ignorers-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
+          name: ig-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
+          path: ig-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
 
   release:
     name: GitHub Release
@@ -176,7 +176,7 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          files: ignorers-*/ignorers-*
+          files: ig-*/ig-*
 
       - name: Publish Draft Release
         uses: eregon/publish-release@v1
@@ -204,7 +204,7 @@ jobs:
           homebrew_tap: homebrew-tap
           formula_folder: Formula
           github_token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
-          install: bin.install "ignorers"
+          install: bin.install "ig"
           target_darwin_amd64: true
           target_darwin_arm64: true
           target_linux_amd64: true
