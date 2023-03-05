@@ -154,7 +154,7 @@ jobs:
         env:
           VERSION: ${{ needs.version.outputs.version }}
         with:
-          name: ig-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
+          name: ignorers-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
           path: ig-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
 
   release:
