@@ -4,11 +4,11 @@ version = "0.1.0"
 edition = "2021"
 authors = [ "Tom Fleet <tomfleet2018@gmail.com>" ]
 description = "Generate gitignores from the command line"
-license = "Apache Software License 2.0"
+license = "Apache-2.0"
 homepage = "https://github.com/FollowTheProcess/ignorers"
 repository = "https://github.com/FollowTheProcess/ignorers"
 readme = "README.md"
-keywords = [ "keywords", "here" ]
+keywords = [ "gitignore", "cli" ]
 categories = [ "command-line-utilities" ]
 
 [[bin]]
