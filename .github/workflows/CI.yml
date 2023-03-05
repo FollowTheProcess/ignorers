@@ -154,7 +154,7 @@ jobs:
         env:
           VERSION: ${{ needs.version.outputs.version }}
         with:
-          name: ignorers-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
+          name: ig-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
           path: ig-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
 
   release:
@@ -184,31 +184,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           release_id: ${{ steps.create_release.outputs.id }}
-
-  homebrew_tap:
-    name: Update Homebrew Tap
-    runs-on: ubuntu-latest
-    needs:
-      - release
-
-    permissions:
-      contents: write
-
-    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
-
-    steps:
-      - name: Publish Homebrew Release
-        uses: Justintime50/homebrew-releaser@v1
-        with:
-          homebrew_owner: FollowTheProcess
-          homebrew_tap: homebrew-tap
-          formula_folder: Formula
-          github_token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
-          install: bin.install "ig"
-          target_darwin_amd64: true
-          target_darwin_arm64: true
-          target_linux_amd64: true
-          target_linux_arm64: false
 
   cargo_publish:
     name: Publish Package
