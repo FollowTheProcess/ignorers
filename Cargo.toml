@@ -1,6 +1,6 @@
 [package]
 name = "ignorers"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = [ "Tom Fleet <tomfleet2018@gmail.com>" ]
 description = "Generate gitignores from the command line"
