@@ -41,6 +41,10 @@ pub fn run() -> Result<()> {
         return Ok(());
     }
 
+    if cli.targets.is_empty() {
+        return Err(Error::NoTargets);
+    }
+
     let targets: Vec<&str> = cli
         .targets
         .iter()
