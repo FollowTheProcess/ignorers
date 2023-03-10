@@ -5,6 +5,9 @@ pub type Result<T> = std::result::Result<T, Error>;
 
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
+    #[error("No targets specified, see available targets with `ig --list`")]
+    NoTargets,
+
     /// The requested target is not valid
     #[error("Invalid target(s): {0}, see available targets with `ig --list`")]
     InvalidTarget(String),
