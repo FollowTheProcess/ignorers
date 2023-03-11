@@ -173,7 +173,7 @@ jobs:
         uses: actions/download-artifact@v3
 
       - name: Generate Checksums
-        run: shasum -a 256 ig-* > checksums.txt
+        run: shasum -a 256 ig-*/ig-* > checksums.txt
 
       - name: Publish Draft Release
         env:
