@@ -11,7 +11,7 @@ Generate great gitignore files, straight from the command line! 🛠️
 const BASE_URL: &str = "https://www.toptal.com/developers/gitignore/api";
 
 #[derive(Parser, Debug)]
-#[command(author, version, about, long_about=LONG_ABOUT)]
+#[command(author, version, about, long_about=LONG_ABOUT, arg_required_else_help(true))]
 struct Cli {
     /// List of targets to generate a gitignore for
     targets: Vec<String>,
@@ -39,10 +39,6 @@ pub fn run() -> Result<()> {
         let targets = client.fetch_available_targets()?;
         println!("{targets}");
         return Ok(());
-    }
-
-    if cli.targets.is_empty() {
-        return Err(Error::NoTargets);
     }
 
     let targets: Vec<&str> = cli
