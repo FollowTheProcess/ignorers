@@ -106,20 +106,20 @@ jobs:
 
           - target: x86_64-apple-darwin
             os: macos-latest
-            platform: darwin
-            arch: amd64
+            platform: macos
+            arch: x86_64
             name: ig
 
           - target: aarch64-apple-darwin
             os: macos-latest
-            platform: darwin
+            platform: macos
             arch: arm64
             name: ig
 
           - target: x86_64-pc-windows-msvc
             os: windows-latest
             platform: windows
-            arch: amd64
+            arch: x86_64
             name: ig.exe
 
           - target: aarch64-pc-windows-msvc
