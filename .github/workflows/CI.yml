@@ -101,7 +101,7 @@ jobs:
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
             platform: linux
-            arch: amd64
+            arch: x86_64
             name: ig
 
           - target: x86_64-apple-darwin
