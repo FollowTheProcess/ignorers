@@ -172,8 +172,12 @@ jobs:
       - name: Get Built Binaries
         uses: actions/download-artifact@v3
 
-      - name: Show Structure
-        run: ls -R
+      - name: Calculate Checksums
+        run: |
+          mkdir -p ./tarballs
+          cp ig-*/ig-* ./tarballs
+          cd tarballs
+          shasum -a 256 * > ../checksums.txt
 
       - name: Publish Draft Release
         env:
@@ -181,7 +185,7 @@ jobs:
         run: |
           DRAFT_RELEASE_TAG=$(gh api repos/${{ github.repository }}/releases --jq '.[] | select(.draft==true) | .tag_name')
           gh release edit $DRAFT_RELEASE_TAG --draft=false --latest --tag ${{ github.ref_name }} --title ${{ github.ref_name }} --repo ${{ github.repository }}
-          gh release upload ${{ github.ref_name }} ig-*/ig-* --repo ${{ github.repository }}
+          gh release upload ${{ github.ref_name }} tarballs/* checksums.txt --repo ${{ github.repository }}
 
   cargo_publish:
     name: Publish Package
