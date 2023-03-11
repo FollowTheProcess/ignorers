@@ -1,0 +1,4 @@
+[[tag.files]]
+path = "Cargo.toml"
+search = 'version = "{{.Current}}"'
+replace = 'version = "{{.Next}}"'
