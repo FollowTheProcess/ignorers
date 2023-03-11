@@ -178,7 +178,7 @@ jobs:
         run: |
           DRAFT_RELEASE_TAG=$(gh api repos/${{ github.repository }}/releases --jq '.[] | select(.draft==true) | .tag_name')
           gh release edit $DRAFT_RELEASE_TAG --draft=false --latest --tag ${{ github.ref_name }} --title ${{ github.ref_name }}
-          gh release upload ${{ github.ref_name }} ig-*/ig-*
+          gh release upload ${{ github.ref_name }} ig-*/ig-* --repo ${{ github.repository }}
 
   cargo_publish:
     name: Publish Package
