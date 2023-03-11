@@ -175,7 +175,7 @@ jobs:
       - name: Calculate Checksums
         run: |
           mkdir -p ./tarballs
-          cp testy-*/testy-* ./tarballs
+          cp ig-*/ig-* ./tarballs
           cd tarballs
           shasum -a 256 * > ../checksums.txt
 
