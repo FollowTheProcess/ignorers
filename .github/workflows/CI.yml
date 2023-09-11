@@ -25,7 +25,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Cargo Check
         run: cargo check --locked
@@ -45,7 +45,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Run Tests
         run: cargo test
@@ -61,7 +61,7 @@ jobs:
           components: clippy, rustfmt
 
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Check Formatting
         run: cargo fmt --all -- --check
@@ -135,7 +135,7 @@ jobs:
           targets: ${{ matrix.target }}
 
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build
         run: |
@@ -197,7 +197,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
