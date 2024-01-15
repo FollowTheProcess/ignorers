@@ -16,7 +16,7 @@ name = "ig"
 path = "src/main.rs"
 
 [dependencies]
-clap = { version = "4.4.13", features = [ "derive" ] }
+clap = { version = "4.4.16", features = [ "derive" ] }
 colored = "2.1.0"
 reqwest = { version = "0.11.23", features = [ "blocking" ] }
 thiserror = "1.0.56"
