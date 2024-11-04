@@ -19,7 +19,7 @@ path = "src/main.rs"
 clap = { version = "4.5.20", features = [ "derive" ] }
 colored = "2.1.0"
 reqwest = { version = "0.12.8", features = [ "blocking" ] }
-thiserror = "1.0.65"
+thiserror = "1.0.67"
 
 [dev-dependencies]
 mockito = "1.5.0"
