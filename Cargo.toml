@@ -18,7 +18,7 @@ path = "src/main.rs"
 [dependencies]
 clap = { version = "4.5.23", features = [ "derive" ] }
 colored = "2.2.0"
-reqwest = { version = "0.12.9", features = [ "blocking" ] }
+reqwest = { version = "0.12.11", features = [ "blocking" ] }
 thiserror = "2.0.9"
 
 [dev-dependencies]
